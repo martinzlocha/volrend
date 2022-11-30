@@ -160,7 +160,7 @@ __device__ __inline__ void trace_ray(
                                         MUL_BASIS_I(2) +
                                         MUL_BASIS_I(3);
                             }
-                            out[t] += weight / (1.f + expf(-tmp));
+                            out[t] += weight * min(1., max(0., tmp + 0.5));
                             off += tree.data_format.basis_dim;
                         }
 #undef MUL_BASIS_I
