@@ -301,7 +301,7 @@ vec3 trace_ray(vec3 dir, vec3 vdir, vec3 cen, float tmax_bg, vec3 bg_color) {
                                     MUL_BASIS_I(2) +
                                     MUL_BASIS_I(3);
                         }
-                        output_color[t] += weight / (1.0 + exp(-tmp));
+                        output_color[t] += weight * min(1.f, max(0.f, tmp + 0.5));
                         off += tree.basis_dim;
                     }
                 } else {

@@ -120,7 +120,7 @@ __global__ static void render_kernel(
                     for (int i = opt.basis_minmax[0]; i <= opt.basis_minmax[1]; ++i) {
                         tmp += basis_fn[i] * probe_coeffs[off + i];
                     }
-                    out[t] = 1.f / (1.f + expf(-tmp));
+                    out[t] = 1.f / min(1., max(0., tmp + 0.5))
                 }
                 out[3] = 1.f;
             } else {
