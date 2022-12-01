@@ -101,7 +101,6 @@ void Camera::drag_update(float x, float y) {
                      delta.y * drag_state_->drag_start_up;
         }
     } else {
-        if (drag_state_->about_origin) delta *= -1.f;
         glm::mat4 m(1.0f), m_tmp(1.0f);
 
         m_tmp = glm::rotate(m_tmp, -delta.y, drag_state_->drag_start_right);
@@ -118,13 +117,6 @@ void Camera::drag_update(float x, float y) {
         glm::vec3 v_back_new = m * glm::vec4(drag_state_->drag_start_back, 1.f);
 
         v_back = glm::normalize(v_back_new);
-
-        if (drag_state_->about_origin) {
-            center =
-                glm::vec3(m * glm::vec4(drag_state_->drag_start_center - origin,
-                                        1.f)) +
-                origin;
-        }
         _update(true, false);
     }
 }
@@ -132,6 +124,7 @@ bool Camera::is_dragging() const { return drag_state_->is_dragging; }
 void Camera::end_drag() { drag_state_->is_dragging = false; }
 void Camera::move(const glm::vec3& xyz) {
     center += xyz * movement_speed;
+    center[1] = origin[1];
     if (drag_state_->is_dragging) {
         drag_state_->drag_start_center += xyz * movement_speed;
     }

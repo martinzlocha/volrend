@@ -114,6 +114,21 @@ void on_key(int key, bool ctrl, bool shift, bool alt) {
         case GLFW_KEY_6:
             cam.v_world_up = glm::vec3(-1.f, 0.f, 0.f);
             break;
+
+        case GLFW_KEY_W:
+        case GLFW_KEY_S:
+        case GLFW_KEY_A:
+        case GLFW_KEY_D: {
+            // Camera movement
+            float speed = 0.002f;
+            if (key == GLFW_KEY_S || key == GLFW_KEY_A || key == GLFW_KEY_E)
+                speed = -speed;
+            const auto& vec =
+                (key == GLFW_KEY_A || key == GLFW_KEY_D)   ? cam.v_right
+                : (key == GLFW_KEY_W || key == GLFW_KEY_S) ? -cam.v_back
+                                                            : -cam.v_up;
+            cam.move(vec * speed);
+        }
     }
 }
 void on_mousedown(int x, int y, bool middle) {
